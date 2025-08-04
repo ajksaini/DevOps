@@ -24,8 +24,6 @@ jobs:
       env:  
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
-
-
     - name: authenticate to GCP
       uses: google-github-actions/auth@v1
       with:
@@ -40,4 +38,3 @@ jobs:
       run: |
         kubectl apply -f deployment.yml
         kubectl apply -f service.yml
-  
