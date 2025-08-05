@@ -36,7 +36,7 @@ jobs:
     - name: Get GKE credentials
       uses: google-github-actions/get-gke-credentials@v2
       with:
-        cluster_name: cluster-1
+        cluster_name: cluster-2
         location: us-central1-a
         project_id: ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy to GKE
