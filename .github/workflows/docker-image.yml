@@ -20,7 +20,7 @@ jobs:
     - name: List Docker images
       run: docker images
     - name: Push the Docker image
-      run: docker push ajksaini2501/my-image-name:latest
+      run: docker push ajksaini2501/firstprogram:latest
       env:  
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
