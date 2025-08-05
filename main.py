@@ -1,20 +1,11 @@
-# this is my first python program
-import os
+# app.py
+from flask import Flask
 
-def greet(name: str) -> str:
-    if not name:
-        return "Hello, Stranger!"
-    return f"Hello, {name}"
+app = Flask(__name__)
 
+@app.route('/')
+def hello_world():
+    return 'Hello from Python on Kubernetes!'
 
-# Simple test function
-def test_greet():
-    assert greet("Alice") == "Hello, Alice"
-    assert greet("") == "Hello, Stranger!"
-    print("All tests passed.")
-
-
-if __name__ == "__main__":
-    user_name = os.getenv("USER_NAME", "")  # Gets the env var, fallback to empty string
-    print(greet(user_name))
-    test_greet()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
