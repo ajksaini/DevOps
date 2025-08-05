@@ -41,6 +41,6 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy to GKE
       run: |
-        kubectl create -f deployment.yaml
-        kubectl create -f service.yaml
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
 
