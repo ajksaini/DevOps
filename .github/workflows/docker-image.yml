@@ -31,7 +31,8 @@ jobs:
     - name: setup cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
-        project_id: ${{ secrets.GCP_PROJECT_ID }}        
+        version: 'latest'
+        project_id: ${{ secrets.GCP_PROJECT_ID }}       
     - name: Get GKE credentials
       run: gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy to GKE
