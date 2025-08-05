@@ -17,4 +17,4 @@ spec:
         image: ajksaini2501/my-image-name:latest
         imagePullpolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 5000
