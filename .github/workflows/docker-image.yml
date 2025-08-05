@@ -16,11 +16,11 @@ jobs:
       run: |
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ajksaini2501/firstprogram:latest
+      run: docker build . --file Dockerfile --tag ajksaini2501/firstprogram:lates:v1.0.1
     - name: List Docker images
       run: docker images
     - name: Push the Docker image
-      run: docker push ajksaini2501/firstprogram:latest
+      run: docker push ajksaini2501/firstprogram:v1.0.1
       env:  
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
