@@ -11,5 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy source code
 COPY main.py ./
 
+EXPOSE 5000
+
 # Set default command
 CMD ["python", "main.py"]
