@@ -39,16 +39,6 @@ jobs:
         cluster_name: cluster-1
         location: us-central1-a
         project_id: ${{ secrets.GCP_PROJECT_ID }}
-      env:
-        CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /home/runner/work/DevOps/DevOps/gha-creds.json
-        GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/DevOps/DevOps/gha-creds.json
-        GOOGLE_GHA_CREDS_PATH: /home/runner/work/DevOps/DevOps/gha-creds.json
-        CLOUDSDK_CORE_PROJECT: unified-gift-466615-b4
-        CLOUDSDK_PROJECT: unified-gift-466615-b4
-        GCLOUD_PROJECT: unified-gift-466615-b4
-        GCP_PROJECT: unified-gift-466615-b4
-        GOOGLE_CLOUD_PROJECT: unified-gift-466615-b4
-
     - name: Deploy to GKE
       run: |
         kubectl apply -f deployment.yml
