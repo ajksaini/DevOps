@@ -1,4 +1,5 @@
 # this is my first python program
+import os
 
 def greet(name: str) -> str:
     if not name:
@@ -14,6 +15,6 @@ def test_greet():
 
 
 if __name__ == "__main__":
-    user_name = input("Enter your name: ")
+    user_name = os.getenv("USER_NAME", "")  # Gets the env var, fallback to empty string
     print(greet(user_name))
     test_greet()
