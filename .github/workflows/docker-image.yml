@@ -47,7 +47,6 @@ jobs:
     - name: Replace image tag in deployment.yaml
       run: |
         sed -i "s|IMAGE_TAG|${{ env.IMAGE_TAG }}|g" deployment.yaml
-
     - name: Apply Kubernetes Manifests
       run: |
         kubectl apply -f deployment.yaml
