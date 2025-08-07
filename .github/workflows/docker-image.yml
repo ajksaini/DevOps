@@ -1,46 +1,54 @@
-name: Docker Image CI
+name: Build and Deploy
 
 on:
   push:
     branches: [ "main" ]
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    - name: login to docker hub
-      id: docker-hub
-      env: 
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Login to Docker Hub
+      env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ajksaini2501/firstprogram:v1.0.1
-    - name: List Docker images
-      run: docker images
-    - name: Push the Docker image
-      run: docker push ajksaini2501/firstprogram:v1.0.1
-      env:  
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
-    - name: authenticate to GCP
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+    - name: Set short SHA as image tag
+      run: echo "IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+    - name: Build Docker image
+      run: docker build . -t ajksaini2501/firstprogram:${{ env.IMAGE_TAG }}
+
+    - name: Push Docker image
+      run: docker push ajksaini2501/firstprogram:${{ env.IMAGE_TAG }}
+
+    - name: Authenticate to GCP
       uses: google-github-actions/auth@v1
       with:
-        credentials_json: ${{ secrets.GCP_CREDENTIALS}}
-    - name: setup cloud SDK
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Setup Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
-        version: 'latest'
-        project_id: ${{ secrets.GCP_PROJECT_ID }}       
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
     - name: Get GKE credentials
       uses: google-github-actions/get-gke-credentials@v2
       with:
         cluster_name: cluster-2
         location: us-central1-a
         project_id: ${{ secrets.GCP_PROJECT_ID }}
-    - name: Deploy to GKE
-      run: |
-        kubectl create -f deployment.yaml
-        kubectl create -f service.yaml
 
+    - name: Replace image tag in deployment.yaml
+      run: |
+        sed -i "s|IMAGE_TAG|${{ env.IMAGE_TAG }}|g" deployment.yaml
+
+    - name: Apply Kubernetes Manifests
+      run: |
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
